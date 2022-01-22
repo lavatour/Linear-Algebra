@@ -10,7 +10,7 @@ ADDITION, SUBTRACTION, """
 matrix = MatrixMath()
 lectures = Lectures()
 
-A = matrix.randomMatrix(4)
-lectures.lecture54(A)
+A = matrix.randomMatrix(2, 2, -10, 10, int)
+lectures.lecture44()
 
 

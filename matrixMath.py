@@ -16,7 +16,7 @@ PrincipalComponentAnalysis
 ColumnSpaceR(M)
 RowSpaceC(N)
 Tensors
-MatrixTyps: Square, Rectangular, Symmetric(mirrored across diagonal) SkewSymmetric 
+MatrixTyps: Square, Rectangular, Symetric(mirrored across diagonal) SkewSymetric 
 ScalarIdentity
 """
 
@@ -33,7 +33,7 @@ class MatrixMath():
     zeroMatrix(rows, cols)
     rotationMatrix2x2(angle)
     diagMatrix(self, rows, min, max, intOrFloat)
-    symmetricMatrix(size, min, max, type, type)
+    symetricMatrix(size, min, max, type, type)
     upperTriangularMatrix(size, min, max, type)
     lowerTriangularMatrix(size, min, max, type)
     diagonal(A) Returns a diagonal matrix
@@ -69,7 +69,7 @@ class MatrixMath():
     complexVectorSize(A)
     concatenateMatrices(A, B)
     matrixDataType(A)
-    isSymmetric
+    isSymetric
 
     DISPLAY
     printMatrix
@@ -161,7 +161,7 @@ class MatrixMath():
                         A[row][col] = random.randint(minVal, maxVal)
         return A
 
-    def symmetricMatrix(self, size, minVal, maxVal, intOrFloat):
+    def symetricMatrix(self, size, minVal, maxVal, intOrFloat):
         A = np.zeros((size, size), intOrFloat)
         for row in range(size):
             for col in range(size):
@@ -193,8 +193,10 @@ class MatrixMath():
       #print(A)
       return A
 
-    def symmetrizeMatrix(self,A):
-      S = A + matrix.transpose(A)
+    def symetrizeMatrix(self, A):
+      S = (A + MatrixMath.transpose(self, A)) / 2
+      #print(A)
+      #print(S)
       return S
 
     """MATRIX OPERATIONS"""
@@ -277,6 +279,7 @@ class MatrixMath():
             A = np.matrix(A)
         A = np.matrix(A)
         T = np.transpose(A)
+        T = T.tolist()
         return T
 
     def hermitianTranspose(self, A):
@@ -376,7 +379,6 @@ class MatrixMath():
         D = np.diag(A)
         return D
 
-
     def rowAddBroadcasting(self, A, r):
         """Used in AI"""
         [rowsM, colsM] = MatrixMath.size(self, A)
@@ -459,9 +461,6 @@ class MatrixMath():
             print("Vector and matrix dimensions not suitable for column broadcasting")
             return
 
-    def symmetrizeMatrix(self, A):
-        pass
-
     """MATRIX INFORMATION"""
 
     def vectorLength(self, A):
@@ -512,17 +511,17 @@ class MatrixMath():
         t = np.trace(A)
         return t
 
-    def isSymmetric(self, A):
+    def isSymetric(self, A):
         [rows, cols] = MatrixMath.size(self, A)
         if rows != cols:
-            print("Matrix not square, cannot be a symmetric matrix")
+            print("Matrix not square, cannot be a symetric matrix")
             return
-        symmetric = True
+        symetric = True
         for row in range(rows):
             for col in range(cols):
                 if A[row][col] != A[col][row]:
-                    symmetric = False
-        return symmetric
+                    symetric = False
+        return symetric
 
     """DISPLAY"""
 

@@ -17,34 +17,21 @@ class Lectures():
         angle = angle * math.pi / 180
         XY.append([math.cos(angle), math.sin(angle)])
     print()
-    R = matrix.randomMatrix(2,2, 0, 3, int)
+    R = matrix.randomMatrix(2,2, -5, 5, int)
+    print(R)
+    R = matrix.symetrizeMatrix(R)
     print(f"R = {R}")
     for pt in XY:
         plt.plot(pt[0], pt[1], 'o')
         V = np.matrix(pt)
-
-        #V = numpy.transpose(V)
 
         T = matrix.transpose(V)
 
         z = matrix.matMult(R, T)
         plt.plot(z[0], z[1], 'o')
 
-
-
-
     plt.axis('square')
     plt.show()
-
-
-
-
-    # plot the new coordinates
-
-    # try various matrices...
-
-    # try with a singular matrix
-
 
   def liveEvil(self, A, B):
       res1 = np.transpose(A @ B)
@@ -54,7 +41,7 @@ class Lectures():
       print(res1 - res2)
 
   def lect52(self):
-    """Geometrtic trnasformation via matrix multiplication."""
+    """Geometrtic transformation via matrix multiplication."""
     points = []
     for angle in range(0, 360, 1):
       theta = angle / 180 * math.pi
@@ -64,4 +51,4 @@ class Lectures():
     matrix.singularMatrix(2, 1, 10)
     
   def lecture54(self, A):
-    S = matrix.symmetrizeMatrix(A)
+    S = matrix.symetrizeMatrix(A)
