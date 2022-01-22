@@ -59,6 +59,7 @@ class MatrixMath():
     colSubtractBroadcasting(A, r)
     colMultBroadcasting(A, r)
     colDivideBroadcasting(A, r)
+    diaganolOfMatrix(A)
 
     MATRIX INFORMATION DATA
     size(A) rows, cols
@@ -179,6 +180,25 @@ class MatrixMath():
         L = np.tril(M)
         return L
 
+    def singularMatrix(self, size, min, max):
+      A = MatrixMath.randomMatrix(self, size, size, min, max, numTyp = int)
+      numbers = []
+      for num in range(size):
+        numbers.append(num)
+      s = numbers.pop(random.randint(0, size - 1))
+      r = numbers.pop(random.randint(0, size - 2))
+      const = random.randint(2, 10)
+      for row in range(size):
+        A[row][r] = const*A[row][s]
+      #print(A)
+      return A
+
+    def symmetrizeMatrix(self,A):
+      S = A + matrix.transpose(A)
+      return S
+
+    """MATRIX OPERATIONS"""
+
     def addMatrices(self, A, B):
         """A + B"""
         if type (A) == list:
@@ -251,25 +271,6 @@ class MatrixMath():
         #plt.title('Angle between vectors: %s rad.')
         plt.show()
 
-    def displayVectors3D_1(self, v1=[0,0,0], v2=[0,0,0], v3=[0,0,0], v4=[0,0,0]):
-        lenV1 = MatrixMath.vectorLength(self, v1)
-        lenV2 = MatrixMath.vectorLength(self, v2)
-        lenV3 = MatrixMath.vectorLength(self, v3)
-        lenV4 = MatrixMath.vectorLength(self, v4)
-        axis = int(max([lenV1,lenV2, lenV3]) * 1.5)
-
-        #draw plane defined by V1 and V2
-        fig = plt.figure()
-        ax = fig.gca(projection='3d')
-        xx, yy = np.meshgrid(np.linspace(-10, 10, 10), np.linspace(-10,10, 10))
-        z1 = (-v3[0]*xx - v3[1]*yy)/v3[2]
-        ax.plot([0, v1[0]], [0, v1[1]], [0, v1[2]], 'b')
-        ax.plot([0, v2[0]], [0, v2[1]], [0, v2[2]], 'r')
-        ax.plot([0, v3[0]], [0, v3[1]], [0, v3[2]], 'r')
-        ax.plot_surface(xx, yy, z1)
-        ax.view_init(azim=150,elev=45)
-        plt.show()
-
     def transpose(self, A):
         """Return the transpose matrix"""
         if type(A) == list:
@@ -329,20 +330,6 @@ class MatrixMath():
                 dP1.append(sum)
         return dP1
 
-    def vectorLength(self, A):
-        """THIS IS INCOMPLETE & MAY HAVE TO BE CHANGED TO np.linalg.norm(v)"""
-        dp = MatrixMath.dotProd(self, A, A)
-        length = math.sqrt(dp)
-        mag = np.linalg.norm(A)
-        #print(mag, length)
-        return length
-
-    def angleBetweenVectors(self, A, B):
-        dp = MatrixMath.dotProd(self, A, B)
-        lenA = MatrixMath.vectorLength(self, A)
-        lenB = MatrixMath.vectorLength(self, B)
-        theta = math.acos(dp/(lenA * lenB))
-        return theta
 
     def hadamardMultiplication(self, A, B):
         """Element by element multiplication"""
@@ -375,20 +362,6 @@ class MatrixMath():
             crossProd = np.cross(A, B)
             return crossProd
 
-    def isComplex(self, A):
-        print(A)
-        complx = np.iscomplex(A)
-        return complx
-
-    #def hermitianTranspose(self, C):
-
-    def complexVectSize(self, C):
-        if MatrixMath.isComplex(self, C) != True:
-            print("This is not a complex vector.")
-            return
-        size = np.linalg.norm(C)
-        return size
-
     def concatenateMatrices(self, A, B):
         sizeA = MatrixMath.size(self, A)
         sizeB = MatrixMath.size(self, B)
@@ -399,28 +372,10 @@ class MatrixMath():
         C = np.concatenate((A, B), axis=1)
         return C
 
-    def matrixDataTyp(self, A):
-        [rows, cols] = MatrixMath.size(self, A)
-        typ0 = type(A[0][0])
-        for row in range(rows):
-            for col in range(cols):
-                typ = type(A[row][col])
-                if typ != typ0:
-                    print("Error! More than one data type.")
-                    return
-        return typ
-
-    def diagonal(self, A):
+    def diagonalOfMatrix(self, A):
         D = np.diag(A)
         return D
 
-    def trace(self, A):
-        [rows, cols] = MatrixMath.size(self, A)
-        if rows != cols:
-            print("Matrix not square. Trace not possible")
-            return
-        t = np.trace(A)
-        return t
 
     def rowAddBroadcasting(self, A, r):
         """Used in AI"""
@@ -504,6 +459,59 @@ class MatrixMath():
             print("Vector and matrix dimensions not suitable for column broadcasting")
             return
 
+    def symmetrizeMatrix(self, A):
+        pass
+
+    """MATRIX INFORMATION"""
+
+    def vectorLength(self, A):
+        """THIS IS INCOMPLETE & MAY HAVE TO BE CHANGED TO np.linalg.norm(v)"""
+        dp = MatrixMath.dotProd(self, A, A)
+        length = math.sqrt(dp)
+        mag = np.linalg.norm(A)
+        #print(mag, length)
+        return length
+
+    def angleBetweenVectors(self, A, B):
+        dp = MatrixMath.dotProd(self, A, B)
+        lenA = MatrixMath.vectorLength(self, A)
+        lenB = MatrixMath.vectorLength(self, B)
+        theta = math.acos(dp/(lenA * lenB))
+        return theta
+
+    def isComplex(self, A):
+        print(A)
+        complx = np.iscomplex(A)
+        return complx
+
+    #def hermitianTranspose(self, C):
+
+    def complexVectSize(self, C):
+        if MatrixMath.isComplex(self, C) != True:
+            print("This is not a complex vector.")
+            return
+        size = np.linalg.norm(C)
+        return size
+
+    def matrixDataTyp(self, A):
+        [rows, cols] = MatrixMath.size(self, A)
+        typ0 = type(A[0][0])
+        for row in range(rows):
+            for col in range(cols):
+                typ = type(A[row][col])
+                if typ != typ0:
+                    print("Error! More than one data type.")
+                    return
+        return typ
+
+    def trace(self, A):
+        [rows, cols] = MatrixMath.size(self, A)
+        if rows != cols:
+            print("Matrix not square. Trace not possible")
+            return
+        t = np.trace(A)
+        return t
+
     def isSymmetric(self, A):
         [rows, cols] = MatrixMath.size(self, A)
         if rows != cols:
@@ -515,3 +523,25 @@ class MatrixMath():
                 if A[row][col] != A[col][row]:
                     symmetric = False
         return symmetric
+
+    """DISPLAY"""
+
+    def displayVectors3D_1(self, v1=[0,0,0], v2=[0,0,0], v3=[0,0,0], v4=[0,0,0]):
+        lenV1 = MatrixMath.vectorLength(self, v1)
+        lenV2 = MatrixMath.vectorLength(self, v2)
+        lenV3 = MatrixMath.vectorLength(self, v3)
+        lenV4 = MatrixMath.vectorLength(self, v4)
+        axis = int(max([lenV1,lenV2, lenV3]) * 1.5)
+
+        #draw plane defined by V1 and V2
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        xx, yy = np.meshgrid(np.linspace(-10, 10, 10), np.linspace(-10,10, 10))
+        z1 = (-v3[0]*xx - v3[1]*yy)/v3[2]
+        ax.plot([0, v1[0]], [0, v1[1]], [0, v1[2]], 'b')
+        ax.plot([0, v2[0]], [0, v2[1]], [0, v2[2]], 'r')
+        ax.plot([0, v3[0]], [0, v3[1]], [0, v3[2]], 'r')
+        ax.plot_surface(xx, yy, z1)
+        ax.view_init(azim=150,elev=45)
+        plt.show()
+

@@ -53,3 +53,15 @@ class Lectures():
       print(res2)
       print(res1 - res2)
 
+  def lect52(self):
+    """Geometrtic trnasformation via matrix multiplication."""
+    points = []
+    for angle in range(0, 360, 1):
+      theta = angle / 180 * math.pi
+      x = math.cos(theta)
+      y = math.sin(theta)
+      points.append([x, y])
+    matrix.singularMatrix(2, 1, 10)
+    
+  def lecture54(self, A):
+    S = matrix.symmetrizeMatrix(A)
