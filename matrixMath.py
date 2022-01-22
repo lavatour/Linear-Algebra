@@ -206,7 +206,9 @@ class MatrixMath():
       const = random.randint(2, 10)
       for row in range(rows):
         A[row][r] = const*A[row][s]
-      #print(A)
+      print(type(A))
+      if type(A) != list:
+        A = A.tolist()
       return A
 
     def symetrizeMatrix(self, A):
@@ -498,6 +500,12 @@ class MatrixMath():
         print(A)
         complx = np.iscomplex(A)
         return complx
+
+    def covarianceMatrix(self, A):
+        print(A)
+        At = np.transpose(A)
+        print(f"At = {At}")
+        #C = np.matMult(At, A)
 
     #def hermitianTranspose(self, C):
 
