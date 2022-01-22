@@ -193,6 +193,22 @@ class MatrixMath():
       #print(A)
       return A
 
+    def singularizeAMatrix(self, A):
+      [rows, cols] = MatrixMath.size(self, A)
+      if rows != cols:
+        print("Cannot be a singular matrix. not square.")
+        return
+      numbers = []
+      for num in range(rows):
+        numbers.append(num)
+      s = numbers.pop(random.randint(0, rows - 1))
+      r = numbers.pop(random.randint(0, rows - 2))
+      const = random.randint(2, 10)
+      for row in range(rows):
+        A[row][r] = const*A[row][s]
+      #print(A)
+      return A
+
     def symetrizeMatrix(self, A):
       S = (A + MatrixMath.transpose(self, A)) / 2
       #print(A)

@@ -8,7 +8,7 @@ class Lectures():
   def __init__(self):
     pass
 
-  def lecture44(self):
+  def lecture52(self):
     # generate XY coordinates for a circle
     import matplotlib.pyplot as plt
     angles = []
@@ -20,6 +20,7 @@ class Lectures():
     R = matrix.randomMatrix(2,2, -5, 5, int)
     print(R)
     R = matrix.symetrizeMatrix(R)
+    R = matrix.singularizeAMatrix(R)
     print(f"R = {R}")
     for pt in XY:
         plt.plot(pt[0], pt[1], 'o')
@@ -40,15 +41,7 @@ class Lectures():
       print(res2)
       print(res1 - res2)
 
-  def lect52(self):
-    """Geometrtic transformation via matrix multiplication."""
-    points = []
-    for angle in range(0, 360, 1):
-      theta = angle / 180 * math.pi
-      x = math.cos(theta)
-      y = math.sin(theta)
-      points.append([x, y])
-    matrix.singularMatrix(2, 1, 10)
+  
     
   def lecture54(self, A):
     S = matrix.symetrizeMatrix(A)
