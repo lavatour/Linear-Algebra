@@ -24,9 +24,9 @@ ScalarIdentity
 class MatrixMath():
     """
     def unitVector(self, V):
-  
+
     MAKE MATRICES
-    unitVector(2dVector):    
+    unitVector(2dVector):
     randomMatrix(rows, cols, max min type)
     complexMatrix(rows, cols, rMin, rMax, iMin, Imax)
     identityMatrix(size)
@@ -79,15 +79,15 @@ class MatrixMath():
     """
 
     def __init__(self):
-      self.a = 1
+        self.a = 1
 
     def unitVector(self, V):
         """Converts 2d vector to unit vector of length 1"""
         v1 = np.array(V)
         v1 = np.ndarray.tolist(v1)
-        print(v1)
+        #print(v1)
         mV1 = MatrixMath.vectorLength(self, v1)
-        u1 = MatrixMath.scalarMultiplication(self, 1/mV1, v1)
+        u1 = MatrixMath.scalarMultiplication(self, 1 / mV1, v1)
         MatrixMath.displayVector2D(self, v1, u1)
         return u1
 
@@ -102,7 +102,7 @@ class MatrixMath():
     def randomMatrix(self, rows, cols, minVal, maxVal, numTyp):
         """Create matrix elements of type float between minVal and maxVal."""
         A = np.zeros((rows, cols))
-        #print(type(A[0][0]))
+        # print(type(A[0][0]))
         for row in range(rows):
             for col in range(cols):
                 if numTyp == int:
@@ -113,7 +113,7 @@ class MatrixMath():
 
     def complexMatrix(self, rows, cols, rMin, rMax, iMin, iMax, numTyp):
         """Makes a complex matrix rows X cols. Real from rMin to rMax, imaginary from iMin to iMax."""
-        A = np.zeros((rows, cols))
+        A = np.zeros((rows, cols), dtype=complex)
         C = A.astype(complex)
         for row in range(rows):
             for col in range(cols):
@@ -137,7 +137,7 @@ class MatrixMath():
         Z = np.zeros((m, m), float)
         return Z
 
-    def rotationMatrix2x2(self, theta, unit = "rad"):
+    def rotationMatrix2x2(self, theta, unit="rad"):
         print(theta)
         if unit == "deg" or unit == "degree":
             theta = theta * math.pi / 180
@@ -170,58 +170,71 @@ class MatrixMath():
                     A[col][row] = A[row][col]
         return A
 
-    def upperTriangularMatrix(self, size, minVal, maxVal, dataTyp = float):
+    def upperTriangularMatrix(self, size, minVal, maxVal, dataTyp=float):
         M = MatrixMath.randomMatrix(self, size, size, minVal, maxVal, dataTyp)
         U = np.triu(M)
         return U
 
-    def lowerTriangularMatrix(self, size, minVal, maxVal, dataTyp = float):
+    def lowerTriangularMatrix(self, size, minVal, maxVal, dataTyp=float):
         M = MatrixMath.randomMatrix(self, size, size, minVal, maxVal, dataTyp)
         L = np.tril(M)
         return L
 
     def singularMatrix(self, size, min, max):
-      A = MatrixMath.randomMatrix(self, size, size, min, max, numTyp = int)
-      numbers = []
-      for num in range(size):
-        numbers.append(num)
-      s = numbers.pop(random.randint(0, size - 1))
-      r = numbers.pop(random.randint(0, size - 2))
-      const = random.randint(2, 10)
-      for row in range(size):
-        A[row][r] = const*A[row][s]
-      #print(A)
-      return A
+        A = MatrixMath.randomMatrix(self, size, size, min, max, numTyp=int)
+        numbers = []
+        for num in range(size):
+            numbers.append(num)
+        s = numbers.pop(random.randint(0, size - 1))
+        r = numbers.pop(random.randint(0, size - 2))
+        const = random.randint(2, 10)
+        for row in range(size):
+            A[row][r] = const * A[row][s]
+        # print(A)
+        return A
 
     def singularizeAMatrix(self, A):
-      [rows, cols] = MatrixMath.size(self, A)
-      if rows != cols:
-        print("Cannot be a singular matrix. not square.")
-        return
-      numbers = []
-      for num in range(rows):
-        numbers.append(num)
-      s = numbers.pop(random.randint(0, rows - 1))
-      r = numbers.pop(random.randint(0, rows - 2))
-      const = random.randint(2, 10)
-      for row in range(rows):
-        A[row][r] = const*A[row][s]
-      print(type(A))
-      if type(A) != list:
-        A = A.tolist()
-      return A
+        [rows, cols] = MatrixMath.size(self, A)
+        if rows != cols:
+            print("Cannot be a singular matrix. not square.")
+            return
+        numbers = []
+        for num in range(rows):
+            numbers.append(num)
+        s = numbers.pop(random.randint(0, rows - 1))
+        r = numbers.pop(random.randint(0, rows - 2))
+        const = random.randint(2, 10)
+        for row in range(rows):
+            A[row][r] = const * A[row][s]
+        print(type(A))
+        if type(A) != list:
+            A = A.tolist()
+        return A
 
     def symetrizeMatrix(self, A):
-      S = (A + MatrixMath.transpose(self, A)) / 2
-      #print(A)
-      #print(S)
-      return S
+        S = (A + MatrixMath.transpose(self, A)) / 2
+        # print(A)
+        # print(S)
+        return S
+
+    def symetricToeplitzMatrix(self, size, min, max, intOrFloat = int):
+        """Symmetric matrix with constant diagonal"""
+        A = MatrixMath.symetricMatrix(self, size, min, max, intOrFloat)
+        #print(f"A = \n{A}")
+        if intOrFloat == int:
+            diag = random.randint(min, max)
+        else:
+            diag = random.random(min, max)
+        for row in range(size):
+            A[row][row] = diag
+        return A
+
 
     """MATRIX OPERATIONS"""
 
     def addMatrices(self, A, B):
         """A + B"""
-        if type (A) == list:
+        if type(A) == list:
             np.asarray(A)
         if type(B) == list:
             np.asarray(B)
@@ -232,7 +245,7 @@ class MatrixMath():
 
     def subtractMatrices(self, A, B):
         """A - B"""
-        if type (A) == list:
+        if type(A) == list:
             np.asarray(A)
         if type(B) == list:
             np.asarray(B)
@@ -253,51 +266,53 @@ class MatrixMath():
         cols = len(A[0])
         return [rows, cols]
 
-    def displayVector2D(self, V1=[0,0], V2=[0,0], V3=[0,0], V4=[0,0]):
+    def displayVector2D(self, V1=[0, 0], V2=[0, 0], V3=[0, 0], V4=[0, 0]):
         import matplotlib.pyplot as plt
         v = np.array(V1)
         u = np.array(V2)
-        plt.plot([0, v[0]], [0, v[1]], 'b', label = 'V')
-        plt.plot([0, u[0]], [0, u[1]], 'r', label = 'V')
+        plt.plot([0, v[0]], [0, v[1]], 'b', label='V')
+        plt.plot([0, u[0]], [0, u[1]], 'r', label='V')
         plt.axis('square')
-        axlim = int(max(abs(V1))*1.6)
-        #print(max(abs(V1)))
+        axlim = int(max(abs(V1)) * 1.6)
+        # print(max(abs(V1)))
         plt.axis((-axlim, axlim, -axlim, axlim))
         plt.grid
         plt.show()
 
-    def displayVector3D(self, v1=[0,0,0], v2=[0,0,0], v3=[0,0,0], v4=[0,0,0]):
+    def displayVector3D(self, v1=[0, 0, 0], v2=[0, 0, 0], v3=[0, 0, 0], v4=[0, 0, 0]):
         import matplotlib.pyplot as plt
         lenV1 = MatrixMath.vectorLength(self, v1)
         lenV2 = MatrixMath.vectorLength(self, v2)
         lenV3 = MatrixMath.vectorLength(self, v3)
         lenV4 = MatrixMath.vectorLength(self, v4)
-        axis = int(max(lenV1, lenV2, lenV3, lenV4) * 1.5) #Sets the axis length based on vector size
-        #v1X, v1Y, v1Z = v1[0], v1[1], v1[2]
+        axis = int(max(lenV1, lenV2, lenV3, lenV4) * 1.5)  # Sets the axis length based on vector size
+        # v1X, v1Y, v1Z = v1[0], v1[1], v1[2]
         print(f"axis = {axis}")
         fig = plt.figure()
-        ax = fig.gca(projection = '3d')
+        ax = fig.gca(projection='3d')
         # draw vectors
-        ax.plot([0, v1[0]], [0, v1[1]], [0, v1[2]], 'r', linewidth = 3)
-        ax.plot([0, v2[0]], [0, v2[1]], [0, v2[2]], 'r', linewidth = 3)
-        ax.plot([0, v3[0]], [0, v3[1]], [0, v3[2]], 'g', linewidth = 3)
-        ax.plot([0, v4[0]], [0, v4[1]], [0, v4[2]], 'r', linewidth = 3)
+        ax.plot([0, v1[0]], [0, v1[1]], [0, v1[2]], 'r', linewidth=3)
+        ax.plot([0, v2[0]], [0, v2[1]], [0, v2[2]], 'r', linewidth=3)
+        ax.plot([0, v3[0]], [0, v3[1]], [0, v3[2]], 'g', linewidth=3)
+        ax.plot([0, v4[0]], [0, v4[1]], [0, v4[2]], 'r', linewidth=3)
 
         xx, yy, = np.meshgrid(range(-15, 16), range(-15, 16))
         cp = np.cross(v1, v2)
-        z1 = (-cp[0]*xx - cp[1]*yy)
+        z1 = (-cp[0] * xx - cp[1] * yy)
         ax.plot_surface(xx, yy, z1)
-        #plt.axis((-axis, axis, -axis, axis))
-        #plt.title('Angle between vectors: %s rad.')
+        # plt.axis((-axis, axis, -axis, axis))
+        # plt.title('Angle between vectors: %s rad.')
         plt.show()
 
     def transpose(self, A):
+        #print(A)
         """Return the transpose matrix"""
+
         if type(A) == list:
             A = np.matrix(A)
-        A = np.matrix(A)
         T = np.transpose(A)
         T = T.tolist()
+        #MatrixMath.printMatrix(self, T)
         return T
 
     def hermitianTranspose(self, A):
@@ -308,7 +323,7 @@ class MatrixMath():
     def dotProd(self, A, B):
         [rowsA, colsA] = MatrixMath.size(self, A)
         [rowsB, colsB] = MatrixMath.size(self, B)
-        #print(f"rowsA, rowsB = {colsA, colsB}")
+        # print(f"rowsA, rowsB = {colsA, colsB}")
         if colsA != colsB:
             print("Error, Dot product impossible, matrices different sizes")
             return
@@ -343,14 +358,13 @@ class MatrixMath():
         for col in range(colsA):
             sum = 0
             for row in range(rowsA):
-                sum += A[row][col]*B[row][col]
+                sum += A[row][col] * B[row][col]
             if type(dP1) == float:
                 dP1 = sum
                 return dP1
             else:
                 dP1.append(sum)
         return dP1
-
 
     def hadamardMultiplication(self, A, B):
         """Element by element multiplication"""
@@ -360,7 +374,11 @@ class MatrixMath():
         if [rowsA, colsA] != [rowsB, colsB]:
             print("Hadamard multiplication impossible, different sizes")
             return
-        C = np.multiply(A, B)
+        for row in range(rowsA):
+            C.append([])
+            for col in range(colsA):
+                C[row].append(A[row][col] * B[row][col])
+        #C = np.matrix(C)
         return C
 
     def outerProduct(self, A, B):
@@ -369,8 +387,8 @@ class MatrixMath():
         [rowsA, colsA] = MatrixMath.size(self, A)
         [rowsB, colsB] = MatrixMath.size(self, B)
         if rowsA > 1 or colsB < 1:
-           print("These are not matrices. Outer Product impossible")
-           return
+            print("These are not matrices. Outer Product impossible")
+            return
         outerProd = np.outer(A, B)
         return outerProd
 
@@ -479,35 +497,77 @@ class MatrixMath():
             print("Vector and matrix dimensions not suitable for column broadcasting")
             return
 
+    def frobeniusDotProductHadamard(self, A, B):
+        magnitude = 0
+        [rowsA, colsA] = MatrixMath.size(self, A)
+        [rowsB, colsB] = MatrixMath.size(self, B)
+        if rowsA != rowsB or rowsB != colsB:
+            print("forbenius dot product not possible. Matrices different sizes.")
+            return
+        H = MatrixMath.hadamardMultiplication(self, A, B)
+        for row in range(rowsA):
+            for col in range(colsA):
+                #print(row, col)
+                #print(H[row][col])
+                magnitude += H[row][col]
+        #print(magnitude)
+        return magnitude
+
+    def frobeniusDotProductVectorize(self, A, B):
+        M1 = np.matrix(A)
+        M2 = np.matrix(B)
+        V1 = M1.flatten()
+        V2 = M2.flatten()
+        V2T = MatrixMath.transpose(self, V2)
+        magnitude = V1 * V2T
+        size = magnitude.tolist()
+        return size[0][0]
+
+    def frobeniusDotProductTrace(self, A, B):
+        At = MatrixMath.transpose(self, A)
+        M = At @ B
+        trace = MatrixMath.trace(self, M)
+        return trace
+
+
     """MATRIX INFORMATION"""
+
+    def norm(self, A):
+        A = np.array(A)
+        At = A.transpose()
+        AAt = A @ At
+        normA =math.sqrt(MatrixMath.trace(self, AAt))
+        return normA
 
     def vectorLength(self, A):
         """THIS IS INCOMPLETE & MAY HAVE TO BE CHANGED TO np.linalg.norm(v)"""
         dp = MatrixMath.dotProd(self, A, A)
         length = math.sqrt(dp)
         mag = np.linalg.norm(A)
-        #print(mag, length)
+        # print(mag, length)
         return length
 
     def angleBetweenVectors(self, A, B):
         dp = MatrixMath.dotProd(self, A, B)
         lenA = MatrixMath.vectorLength(self, A)
         lenB = MatrixMath.vectorLength(self, B)
-        theta = math.acos(dp/(lenA * lenB))
+        theta = math.acos(dp / (lenA * lenB))
         return theta
 
     def isComplex(self, A):
-        print(A)
+        #print(A)
         complx = np.iscomplex(A)
         return complx
 
     def covarianceMatrix(self, A):
-        print(A)
+        #print(A)
         At = np.transpose(A)
-        print(f"At = {At}")
-        #C = np.matMult(At, A)
+        #print(f"At = {At}")
+        C = np.matmul(At, A)
+        #print(C)
+        return C
 
-    #def hermitianTranspose(self, C):
+    # def hermitianTranspose(self, C):
 
     def complexVectSize(self, C):
         if MatrixMath.isComplex(self, C) != True:
@@ -528,12 +588,15 @@ class MatrixMath():
         return typ
 
     def trace(self, A):
+        """sum of the diagonal elements of a square matrix"""
         [rows, cols] = MatrixMath.size(self, A)
         if rows != cols:
             print("Matrix not square. Trace not possible")
             return
-        t = np.trace(A)
-        return t
+        trace = 0
+        for row in range(rows):
+            trace += A[row][row]
+        return trace
 
     def isSymetric(self, A):
         [rows, cols] = MatrixMath.size(self, A)
@@ -549,22 +612,21 @@ class MatrixMath():
 
     """DISPLAY"""
 
-    def displayVectors3D_1(self, v1=[0,0,0], v2=[0,0,0], v3=[0,0,0], v4=[0,0,0]):
+    def displayVectors3D_1(self, v1=[0, 0, 0], v2=[0, 0, 0], v3=[0, 0, 0], v4=[0, 0, 0]):
         lenV1 = MatrixMath.vectorLength(self, v1)
         lenV2 = MatrixMath.vectorLength(self, v2)
         lenV3 = MatrixMath.vectorLength(self, v3)
         lenV4 = MatrixMath.vectorLength(self, v4)
-        axis = int(max([lenV1,lenV2, lenV3]) * 1.5)
+        axis = int(max([lenV1, lenV2, lenV3]) * 1.5)
 
-        #draw plane defined by V1 and V2
+        # draw plane defined by V1 and V2
         fig = plt.figure()
         ax = fig.gca(projection='3d')
-        xx, yy = np.meshgrid(np.linspace(-10, 10, 10), np.linspace(-10,10, 10))
-        z1 = (-v3[0]*xx - v3[1]*yy)/v3[2]
+        xx, yy = np.meshgrid(np.linspace(-10, 10, 10), np.linspace(-10, 10, 10))
+        z1 = (-v3[0] * xx - v3[1] * yy) / v3[2]
         ax.plot([0, v1[0]], [0, v1[1]], [0, v1[2]], 'b')
         ax.plot([0, v2[0]], [0, v2[1]], [0, v2[2]], 'r')
         ax.plot([0, v3[0]], [0, v3[1]], [0, v3[2]], 'r')
         ax.plot_surface(xx, yy, z1)
-        ax.view_init(azim=150,elev=45)
+        ax.view_init(azim=150, elev=45)
         plt.show()
-
