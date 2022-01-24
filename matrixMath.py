@@ -81,6 +81,20 @@ class MatrixMath():
     def __init__(self):
         self.a = 1
 
+    def enterMatrix(self):
+      print("enter the size rows & columns or mxn")
+      rows = int(input("enter rows."))
+      cols = int(input("enter columns"))
+      A = MatrixMath.zeroMatrix(self, rows)
+      print("Creating zero matrix")
+      print(A)
+      print("replace each element, now a zero.")
+      for row in range(rows):
+        for col in range(cols):
+          A[row][col] = int(input(f"Replace element {row+1},{col+1}  "))
+          print(A)
+      return A
+
     def unitVector(self, V):
         """Converts 2d vector to unit vector of length 1"""
         v1 = np.array(V)
@@ -108,7 +122,7 @@ class MatrixMath():
                 if numTyp == int:
                     A[row][col] = random.randint(minVal, maxVal)
                 if numTyp == float:
-                    A[row][col] = random.randint(minVal, maxVal) * random.random()
+                    A[row][colb] = random.randint(minVal, maxVal) * random.random()
         return A
 
     def complexMatrix(self, rows, cols, rMin, rMax, iMin, iMax, numTyp):
@@ -311,7 +325,7 @@ class MatrixMath():
         if type(A) == list:
             A = np.matrix(A)
         T = np.transpose(A)
-        T = T.tolist()
+        #T = T.tolist()
         #MatrixMath.printMatrix(self, T)
         return T
 
@@ -531,6 +545,19 @@ class MatrixMath():
 
 
     """MATRIX INFORMATION"""
+    def normFrobenius(self, A):
+      normFrob = np.linalg.norm(A, 'fro')
+      return normFrob
+
+    def normInd2(self, A):
+      Ind2Norm = np.linalg.norm(A, 2)
+      return Ind2Norm
+
+    def schatten_p_Norm(self, A, p = 2):
+      # p = 2 but can be 1 etc
+      s = np.linalg.svd(A)[1] # get singular values
+      normSchatten_p = np.sum(s**p)**(1/p)
+      return normSchatten_p
 
     def norm(self, A):
         A = np.array(A)
@@ -596,6 +623,7 @@ class MatrixMath():
         trace = 0
         for row in range(rows):
             trace += A[row][row]
+        tract = np.trace(A)
         return trace
 
     def isSymetric(self, A):

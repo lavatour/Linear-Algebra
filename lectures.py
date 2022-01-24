@@ -8,6 +8,35 @@ class Lectures():
   def __init__(self):
     x = 1
 
+  def lecture62(self):
+    """Conditions for self-adjoint matrices
+    <Av, w> = <v, Aw>
+    v != w"""
+
+
+
+  def lecture61(self):
+      #A = matrix.enterMatrix()
+      M = [[1, 2, 3],[4, 5, 6],[7, 7, 9]]
+      A = np.array(M)
+
+      # optional orthotona matrix to show that 2-norm is 1
+      Q,r = np.linalg.qr(np.random.randn(5,5))
+      #A = Q 
+
+      #Frobenius norm
+      normFrob = matrix.normFrobenius(A)
+
+      normInd_2 = matrix.normInd2(A)
+      # induced 2-norm
+      # note computed as below
+      lambd = np.sqrt(np.max(np.linalg.eig(A.T@A)[0]))
+
+      # schatten p-norm
+      normSchatten = matrix.schatten_p_Norm(A, p = 2)
+          
+      # % show all norms for coparison
+      print(normFrob,normSchatten,'\n', normInd_2) 
 
   def lecture60(self):
       A = matrix.randomMatrix(3, 3, -5, 5, int)
