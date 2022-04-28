@@ -184,6 +184,15 @@ class MatrixMath():
                     A[col][row] = A[row][col]
         return A
 
+    def skewSymmetricMatrix(self, size, minVal, maxVal, intOrFloat):
+        A = np.zeros((size, size), intOrFloat)
+        for row in range(size):
+            for col in range(size):
+                if col < row:
+                    A[row][col] = random.randint(minVal, maxVal)
+                    A[col][row] = -1 * A[row][col]
+        return A
+
     def upperTriangularMatrix(self, size, minVal, maxVal, dataTyp=float):
         M = MatrixMath.randomMatrix(self, size, size, minVal, maxVal, dataTyp)
         U = np.triu(M)
@@ -593,6 +602,13 @@ class MatrixMath():
         C = np.matmul(At, A)
         #print(C)
         return C
+
+    def matrixTilda(self, A):
+        """Returns the asymmetric part of matrix A
+        ATilda = (A - ATranspose) / 2"""
+        A_transpose = MatrixMath.transpose(self, A)
+        A_tilda = (A - A_transpose)/2
+
 
     # def hermitianTranspose(self, C):
 
